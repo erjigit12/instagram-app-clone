@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_app_clone/firebase_options.dart';
-import 'package:instagram_app_clone/src/features/presentation/page/credential/sign_up_page.dart';
+import 'package:instagram_app_clone/src/features/presentation/page/main/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
       ),
-      home: const SignUpPage(),
+      home: const MainScreen(),
     );
   }
 }
