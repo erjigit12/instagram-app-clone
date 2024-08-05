@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
 import 'package:instagram_app_clone/src/features/presentation/page/activity/activity_page.dart';
 import 'package:instagram_app_clone/src/features/presentation/page/home/home_page.dart';
-import 'package:instagram_app_clone/src/features/presentation/page/post/post_page.dart';
+import 'package:instagram_app_clone/src/features/presentation/page/post/upload_post_page.dart';
 import 'package:instagram_app_clone/src/features/presentation/page/profile/profile_page.dart';
 import 'package:instagram_app_clone/src/features/presentation/page/search/search_page.dart';
 
@@ -78,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
         children: const [
           HomePage(),
           SearchPage(),
-          PostPage(),
+          UploadPostPage(),
           ActivityPage(),
           ProfilePage(),
         ],

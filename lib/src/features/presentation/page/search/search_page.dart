@@ -49,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                       color: secondaryColor,
                     );
                   },
-                )
+                ),
               ],
             ),
           ),
