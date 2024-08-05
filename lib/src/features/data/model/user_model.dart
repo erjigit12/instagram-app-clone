@@ -1,5 +1,6 @@
 // ignore_for_file: overridden_fields
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instagram_app_clone/src/features/domain/entities/user/user_entity.dart';
 
 class UserModel extends UserEntity {
@@ -56,7 +57,8 @@ class UserModel extends UserEntity {
           totalPosts: totalPosts,
         );
 
-  factory UserModel.fromSnapshot(Map<String, dynamic> snapshot) {
+  factory UserModel.fromSnapshot(
+      QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
     // var snapshot = snap.data() as Map<String, dynamic>;
 
     return UserModel(

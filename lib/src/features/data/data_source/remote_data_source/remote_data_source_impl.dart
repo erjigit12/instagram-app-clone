@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:instagram_app_clone/src/core/consts/consts.dart';
 import 'package:instagram_app_clone/src/features/data/data_source/remote_data_source/remote_data_source.dart';
+import 'package:instagram_app_clone/src/features/data/model/user_model.dart';
 import 'package:instagram_app_clone/src/features/domain/entities/user/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,55 +17,137 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   });
 
   @override
-  Future<void> createUser(UserEntity user) {
-    throw UnimplementedError();
+  Future<void> createUser(UserEntity user) async {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+
+    final uid = await getCurrentUid();
+
+    userCollection.doc(uid).get().then((userDoc) {
+      final newUser = UserModel(
+              uid: uid,
+              name: user.name,
+              email: user.email,
+              bio: user.bio,
+              following: user.following,
+              website: user.website,
+              profileUrl: user.profileUrl,
+              username: user.username,
+              totalFollowers: user.totalFollowers,
+              followers: user.followers,
+              totalFollowing: user.totalFollowing,
+              totalPosts: user.totalPosts)
+          .toJson();
+
+      if (!userDoc.exists) {
+        userCollection.doc(uid).set(newUser);
+      } else {
+        userCollection.doc(uid).update(newUser);
+      }
+    }).catchError((error) {
+      toast("Some error eccur");
+    });
   }
 
   @override
-  Future<String> getCurrentUid() {
-    // TODO: implement getCurrentUid
-    throw UnimplementedError();
-  }
+  Future<String> getCurrentUid() async => firebaseAuth.currentUser!.uid;
 
   @override
   Stream<List<UserEntity>> getSingleUser(String uid) {
-    // TODO: implement getSingleUser
-    throw UnimplementedError();
+    final userCollection = firebaseFirestore
+        .collection(FirebaseConst.users)
+        .where("uid", isEqualTo: uid)
+        .limit(1);
+
+    return userCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
   }
 
   @override
   Stream<List<UserEntity>> getUsers(UserEntity user) {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+    return userCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
   }
 
   @override
-  Future<bool> isSignIn() {
-    // TODO: implement isSignIn
-    throw UnimplementedError();
+  Future<bool> isSignIn() async => firebaseAuth.currentUser != null;
+
+  @override
+  Future<void> signInUser(UserEntity user) async {
+    try {
+      if (user.email!.isNotEmpty || user.password!.isNotEmpty) {
+        await firebaseAuth.signInWithEmailAndPassword(
+          email: user.email!,
+          password: user.password!,
+        );
+      } else {
+        log("field cannot be empty");
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        toast("user not found");
+      } else if (e.code == "wrong-password") {
+        toast("wrong password");
+      }
+    }
   }
 
   @override
-  Future<void> signInUser(UserEntity user) {
-    // TODO: implement signInUser
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signUpUser(UserEntity user) async {
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(
+        email: user.email!,
+        password: user.password!,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
+        toast("email is already taken");
+      } else {
+        toast("something went wrong");
+      }
+    }
   }
 
   @override
-  Future<void> signUpUser(UserEntity user) {
-    // TODO: implement signUpUser
-    throw UnimplementedError();
-  }
+  Future<void> updateUser(UserEntity user) async {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+    Map<String, dynamic> userInformation = {};
 
-  @override
-  Future<void> updateUser(UserEntity user) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+    if (user.username != "" && user.username != null) {
+      userInformation['username'] = user.username;
+    }
+
+    if (user.website != "" && user.website != null) {
+      userInformation['website'] = user.website;
+    }
+
+    if (user.profileUrl != "" && user.profileUrl != null) {
+      userInformation['profileUrl'] = user.profileUrl;
+    }
+
+    if (user.bio != "" && user.bio != null) userInformation['bio'] = user.bio;
+
+    if (user.name != "" && user.name != null) {
+      userInformation['name'] = user.name;
+    }
+
+    if (user.totalFollowing != null) {
+      userInformation['totalFollowing'] = user.totalFollowing;
+    }
+
+    if (user.totalFollowers != null) {
+      userInformation['totalFollowers'] = user.totalFollowers;
+    }
+
+    if (user.totalPosts != null) {
+      userInformation['totalPosts'] = user.totalPosts;
+    }
+
+    userCollection.doc(user.uid).update(userInformation);
   }
 }
