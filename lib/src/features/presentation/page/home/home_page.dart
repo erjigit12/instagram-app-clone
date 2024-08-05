@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
+import 'package:instagram_app_clone/src/features/presentation/page/post/comment/comment_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -86,9 +87,19 @@ class HomePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    const Icon(
+                      Icons.favorite,
+                      color: primaryColor,
+                    ),
                     sizeHor(10),
                     GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CommentPage(),
+                              ));
+                        },
                         child: const Icon(
                           Icons.message,
                           color: primaryColor,
