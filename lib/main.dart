@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_app_clone/firebase_options.dart';
+import 'package:instagram_app_clone/src/core/routes/on_generate_route.dart';
 import 'package:instagram_app_clone/src/features/presentation/page/main/main_screen.dart';
 
 Future<void> main() async {
@@ -24,7 +25,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
       ),
-      home: const MainScreen(),
+      onGenerateRoute: OnGenerateRoute.route,
+      initialRoute: "/",
+      routes: {
+        "/": (context) {
+          return const MainScreen();
+        }
+      },
     );
   }
 }

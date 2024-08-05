@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
-import 'package:instagram_app_clone/src/features/presentation/page/post/comment/comment_page.dart';
+import 'package:instagram_app_clone/src/core/routes/names_route.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -58,7 +58,9 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _openBottomModalSheet(context);
+                    },
                     child: const Icon(
                       Icons.more_vert,
                       color: primaryColor,
@@ -94,11 +96,7 @@ class HomePage extends StatelessWidget {
                     sizeHor(10),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const CommentPage(),
-                              ));
+                          Navigator.pushNamed(context, PageConst.commentPage);
                         },
                         child: const Icon(
                           Icons.message,
@@ -154,5 +152,82 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _openBottomModalSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 150,
+            decoration: BoxDecoration(color: backgroundColor.withOpacity(.8)),
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        "More Options",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: primaryColor),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      color: secondaryColor,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, PageConst.updatePostPage);
+                        },
+                        child: const Text(
+                          "Update Post",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: primaryColor),
+                        ),
+                      ),
+                    ),
+                    sizeVer(7),
+                    const Divider(
+                      thickness: 1,
+                      color: secondaryColor,
+                    ),
+                    sizeVer(7),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Text(
+                          "Delete Post",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: primaryColor),
+                        ),
+                      ),
+                    ),
+                    sizeVer(7),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

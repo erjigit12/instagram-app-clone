@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:instagram_app_clone/profile_widget.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
-import 'package:instagram_app_clone/src/features/presentation/page/profile/profile_form_widget.dart';
+import 'package:instagram_app_clone/src/features/presentation/page/profile/widgets/profile_form_widget.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});

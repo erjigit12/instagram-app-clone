@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
-import 'package:instagram_app_clone/src/features/presentation/page/credential/sign_in_page.dart';
+import 'package:instagram_app_clone/src/core/routes/names_route.dart';
 import 'package:instagram_app_clone/src/features/presentation/widgets/button_container_widget.dart';
 import 'package:instagram_app_clone/src/features/presentation/widgets/form_container_widget.dart';
 
@@ -83,12 +83,8 @@ class SignUpPage extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInPage(),
-                        ),
-                        (route) => false);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, PageConst.signInPage, (route) => false);
                   },
                   child: const Text(
                     'Sign In',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
-import 'package:instagram_app_clone/src/features/presentation/page/profile/edit_profile_page.dart';
+import 'package:instagram_app_clone/src/core/routes/names_route.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -174,11 +174,8 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EditProfilePage()),
-                          );
+                          Navigator.pushNamed(
+                              context, PageConst.editProfilePage);
                         },
                         child: const Text(
                           "Edit Profile",
@@ -202,9 +199,10 @@ class ProfilePage extends StatelessWidget {
                         child: const Text(
                           "Logout",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: primaryColor),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ),
