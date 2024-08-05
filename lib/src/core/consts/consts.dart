@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 const backgroundColor = Color.fromRGBO(0, 0, 0, 1.0);
 const blueColor = Color.fromRGBO(0, 149, 246, 1);
@@ -12,4 +13,22 @@ Widget sizeVer(double height) {
 
 Widget sizeHor(double width) {
   return SizedBox(width: width);
+}
+
+class FirebaseConst {
+  static const String users = "users";
+  static const String posts = "posts";
+  static const String comment = "comment";
+  static const String replay = "replay";
+}
+
+void toast(String message) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: blueColor,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }
