@@ -10,7 +10,9 @@ import 'package:instagram_app_clone/src/features/presentation/page/profile/profi
 import 'package:instagram_app_clone/src/features/presentation/page/search/search_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, required this.uid});
+
+  final String uid;
 
   @override
   _MainScreenState createState() => _MainScreenState();

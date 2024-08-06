@@ -100,10 +100,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<void> signUpUser(UserEntity user) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
+      await firebaseAuth
+          .createUserWithEmailAndPassword(
         email: user.email!,
         password: user.password!,
-      );
+      )
+          .then((value) async {
+        if (value.user?.uid != null) {
+          await createUser(user);
+        }
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
         toast("email is already taken");
