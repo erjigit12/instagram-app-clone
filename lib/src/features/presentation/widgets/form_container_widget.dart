@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
 
@@ -15,20 +13,22 @@ class FormContainerWidget extends StatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
 
-  const FormContainerWidget(
-      {super.key,
-      this.controller,
-      this.isPasswordField,
-      this.fieldKey,
-      this.hintText,
-      this.labelText,
-      this.helperText,
-      this.onSaved,
-      this.validator,
-      this.onFieldSubmitted,
-      this.inputType});
+  const FormContainerWidget({
+    super.key,
+    this.controller,
+    this.isPasswordField,
+    this.fieldKey,
+    this.hintText,
+    this.labelText,
+    this.helperText,
+    this.onSaved,
+    this.validator,
+    this.onFieldSubmitted,
+    this.inputType,
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _FormContainerWidgetState createState() => _FormContainerWidgetState();
 }
 
@@ -47,7 +47,7 @@ class _FormContainerWidgetState extends State<FormContainerWidget> {
         style: const TextStyle(color: primaryColor),
         controller: widget.controller,
         keyboardType: widget.inputType,
-        key: widget.fieldKey,
+        // key: widget.fieldKey,
         obscureText: widget.isPasswordField == true ? _obscureText : false,
         onSaved: widget.onSaved,
         validator: widget.validator,

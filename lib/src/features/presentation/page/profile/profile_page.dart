@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
 import 'package:instagram_app_clone/src/core/routes/names_route.dart';
+import 'package:instagram_app_clone/src/features/domain/entities/user/user_entity.dart';
+import 'package:instagram_app_clone/src/features/presentation/logic/auth/auth_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  final UserEntity currentUser;
+  const ProfilePage({super.key, required this.currentUser});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: const Text(
-          'Username',
-          style: TextStyle(color: primaryColor),
+        title: Text(
+          '${currentUser.username}',
+          style: const TextStyle(color: primaryColor),
         ),
         actions: [
           Padding(
@@ -47,9 +52,9 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          const Text(
-                            "0",
-                            style: TextStyle(
+                          Text(
+                            "${currentUser.totalPosts}",
+                            style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.bold,
                             ),
@@ -64,9 +69,9 @@ class ProfilePage extends StatelessWidget {
                       sizeHor(25),
                       Column(
                         children: [
-                          const Text(
-                            "54",
-                            style: TextStyle(
+                          Text(
+                            "${currentUser.totalFollowers}",
+                            style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.bold,
                             ),
@@ -81,9 +86,9 @@ class ProfilePage extends StatelessWidget {
                       sizeHor(25),
                       Column(
                         children: [
-                          const Text(
-                            "123",
-                            style: TextStyle(
+                          Text(
+                            "${currentUser.totalFollowing}",
+                            style: const TextStyle(
                               color: primaryColor,
                               fontWeight: FontWeight.bold,
                             ),
@@ -100,17 +105,17 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
               sizeVer(10),
-              const Text(
-                "Name",
-                style: TextStyle(
+              Text(
+                currentUser.name == "" ? "" : "",
+                style: const TextStyle(
                   color: primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               sizeVer(10),
-              const Text(
-                "The bio of user",
-                style: TextStyle(color: primaryColor),
+              Text(
+                "${currentUser.bio}",
+                style: const TextStyle(color: primaryColor),
               ),
               sizeVer(10),
               GridView.builder(
@@ -195,7 +200,9 @@ class ProfilePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _signOut(context);
+                        },
                         child: const Text(
                           "Logout",
                           style: TextStyle(
@@ -213,5 +220,11 @@ class ProfilePage extends StatelessWidget {
             ),
           );
         });
+  }
+
+  void _signOut(BuildContext context) {
+    BlocProvider.of<AuthCubit>(context).loggedOut();
+    Navigator.pushNamedAndRemoveUntil(
+        context, PageConst.signInPage, (route) => false);
   }
 }
