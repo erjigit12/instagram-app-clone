@@ -1,8 +1,13 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, invalid_use_of_visible_for_testing_member
+
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_app_clone/profile_widget.dart';
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
 import 'package:instagram_app_clone/src/core/routes/names_route.dart';
 import 'package:instagram_app_clone/src/features/domain/entities/user/user_entity.dart';
@@ -34,6 +39,25 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController.dispose();
     _bioController.dispose();
     super.dispose();
+  }
+
+  File? _image;
+
+  Future selectImage() async {
+    try {
+      final pickedFile =
+          await ImagePicker.platform.getImage(source: ImageSource.gallery);
+
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          log("no image has been selected");
+        }
+      });
+    } catch (e) {
+      toast("some error occured $e");
+    }
   }
 
   @override
@@ -87,20 +111,20 @@ class _SignUpPageState extends State<SignUpPage> {
           Center(
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: 60,
                   height: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: secondaryColor,
-                  ),
-                  child: Image.asset("assets/profile_default.png"),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: profileWidget(image: _image)),
                 ),
                 Positioned(
                   right: -10,
                   bottom: -15,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      selectImage();
+                    },
                     icon: const Icon(Icons.add_a_photo, color: blueColor),
                   ),
                 ),
@@ -203,6 +227,7 @@ class _SignUpPageState extends State<SignUpPage> {
           website: "",
           following: const [],
           name: "",
+          imageFile: _image,
         ))
         .then((value) => _clear());
   }
