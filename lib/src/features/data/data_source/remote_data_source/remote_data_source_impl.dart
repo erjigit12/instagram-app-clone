@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:instagram_app_clone/src/core/consts/consts.dart';
 import 'package:instagram_app_clone/src/features/data/data_source/remote_data_source/remote_data_source.dart';
@@ -155,5 +156,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
 
     userCollection.doc(user.uid).update(userInformation);
+  }
+
+  @override
+  Future<String> uploadImageToStorage(
+      File fiel, bool isPost, String childName) {
+    // TODO: implement uploadImageToStorage
+    throw UnimplementedError();
   }
 }

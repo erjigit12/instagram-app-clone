@@ -14,6 +14,7 @@ import 'package:instagram_app_clone/src/features/domain/usecases/firebase_usecas
 import 'package:instagram_app_clone/src/features/domain/usecases/firebase_usecases/sign_out_usecase.dart';
 import 'package:instagram_app_clone/src/features/domain/usecases/firebase_usecases/sign_up_usecase.dart';
 import 'package:instagram_app_clone/src/features/domain/usecases/firebase_usecases/update_user_usecase.dart';
+import 'package:instagram_app_clone/src/features/domain/usecases/storage/upload_image_to_storage_usecase.dart';
 import 'package:instagram_app_clone/src/features/presentation/logic/auth/auth_cubit.dart';
 import 'package:instagram_app_clone/src/features/presentation/logic/credential/credential_cubit.dart';
 import 'package:instagram_app_clone/src/features/presentation/logic/user/get_single_user/get_single_user_cubit.dart';
@@ -49,6 +50,7 @@ Future<void> init() async {
   );
 
   // Use Cases
+  // User
   sl.registerLazySingleton(() => SignOutUsecase(repository: sl.call()));
   sl.registerLazySingleton(() => IsSignInUsecase(repository: sl.call()));
   sl.registerLazySingleton(() => GetCurrrentUidUsecase(repository: sl.call()));
@@ -58,6 +60,10 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUsersUsecase(repository: sl.call()));
   sl.registerLazySingleton(() => CreateUserUsecase(repository: sl.call()));
   sl.registerLazySingleton(() => GetSingleUserUsecase(repository: sl.call()));
+
+  // Cloud Storage
+  sl.registerLazySingleton(
+      () => UploadImageToStorageUsecase(repository: sl.call()));
 
   // Repository
   sl.registerLazySingleton<FirebaseRepository>(
