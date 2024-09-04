@@ -12,6 +12,8 @@ import 'package:instagram_app_clone/src/features/presentation/page/main/main_scr
 import 'package:instagram_app_clone/injection_container.dart' as di;
 
 Future<void> main() async {
+  // it was issues
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
